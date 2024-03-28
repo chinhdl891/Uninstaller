@@ -1,11 +1,15 @@
 package com.kweisa.uninstaller.ui.main;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -26,10 +30,11 @@ import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
+    private static final int YOUR_REQUEST_CODE = 6688;
 
     private PackageReceiver packageReceiver = new PackageReceiver();
 
-    private GroupAdapter groupAdapter;
+    private GroupAdapter groupAdapter = new GroupAdapter();
     private MainViewModel mainViewModel;
 
     private Stack<String> uninstallStack = new Stack<>();
@@ -42,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         MainViewModelFactory mainViewModelFactory = InjectorUtils.INSTANCE.provideMainViewModelFactory();
         mainViewModel = new ViewModelProvider(this, mainViewModelFactory).get(MainViewModel.class);
 
-        groupAdapter = new GroupAdapter();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.setAdapter(groupAdapter);
 
